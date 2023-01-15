@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "261887950056",
+    "project_id": "humari-dukan-e27b6",
+    "storage_bucket": "humari-dukan-e27b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261887950056:android:f908dc717e613dc36d5d5d",
+        "android_client_info": {
+          "package_name": "com.rudransh.humari_dukan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261887950056-67onc8npp9vv0in1on9q7sciqcu6ufpb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rudransh.humari_dukan",
+            "certificate_hash": "f9653b4e59bfda4433d608ca932dfc7dc73a490a"
+          }
+        },
+        {
+          "client_id": "261887950056-8r9vt136dadvl91esa9ci827b16huqf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUqHOqjhivSA-mnsqGlCLvwF0bvrdP42U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261887950056-8r9vt136dadvl91esa9ci827b16huqf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
