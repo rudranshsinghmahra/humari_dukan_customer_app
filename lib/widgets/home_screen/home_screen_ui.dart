@@ -3,8 +3,11 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:humari_dukan/services/cart_provider.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
+import 'package:humari_dukan/widgets/customShoppingCart.dart';
 import 'package:humari_dukan/widgets/home_screen/product_list.dart';
+import 'package:provider/provider.dart';
 
 import '../../screens/cart_screen.dart';
 
@@ -138,11 +141,7 @@ class _HomeScreenUIState extends State<HomeScreenUI>
                                     transitionDuration:
                                         const Duration(seconds: 0)));
                           },
-                          child: const Icon(
-                            Icons.shopping_bag_outlined,
-                            size: 40,
-                            color: Colors.white,
-                          ),
+                          child: CustomShoppingCart()
                         ),
                       )
                     ],

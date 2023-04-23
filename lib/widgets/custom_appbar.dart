@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:humari_dukan/screens/cart_screen.dart';
+import 'package:humari_dukan/services/cart_provider.dart';
+import 'package:humari_dukan/widgets/customShoppingCart.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar(
@@ -10,6 +13,7 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cartProvider = Provider.of<CartProvider>(context);
     return Container(
       height: 60,
       width: MediaQuery.of(context).size.width,
@@ -60,11 +64,7 @@ class CustomAppBar extends StatelessWidget {
                             transitionDuration: const Duration(seconds: 0)));
                   },
                   child: showShoppingCart
-                      ? const Icon(
-                          Icons.shopping_bag_outlined,
-                          size: 40,
-                          color: Colors.white,
-                        )
+                      ? const CustomShoppingCart()
                       : Container(),
                 ),
               )
