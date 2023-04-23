@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/bottom_nav_bar.dart';
 import 'package:humari_dukan/widgets/counter.dart';
 import 'package:humari_dukan/widgets/custom_appbar.dart';
-
-import '../widgets/custom_progress_indicator.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({Key? key, this.documentSnapshot})
@@ -40,8 +39,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
     });
   }
 
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    SpinKitFadingCube spinkit = SpinKitFadingCube(
+      color: Colors.pink,
+      size: 50.0,
+      controller: animationController,
+    );
     Future setWishlistedItemData() async {
       await services.wishlists
           .doc(user?.uid)
@@ -114,7 +133,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
-                    child: spinKit(this),
+                    child: spinkit,
                   );
                 }
                 return Positioned(
@@ -145,7 +164,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
                     ));
               },
             ),
-            CustomAppBar(appbarTitle: widget.documentSnapshot?['productName'],showShoppingCart: true,),
+            CustomAppBar(
+              appbarTitle: widget.documentSnapshot?['productName'],
+              showShoppingCart: true,
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 360.0),
               child: Container(

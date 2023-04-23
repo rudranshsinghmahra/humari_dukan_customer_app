@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
-import 'package:humari_dukan/widgets/custom_progress_indicator.dart';
 import 'package:humari_dukan/widgets/home_screen/product_list.dart';
 
 import '../../screens/cart_screen.dart';
@@ -58,14 +58,34 @@ class _HomeScreenUIState extends State<HomeScreenUI>
     }
   }
 
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    SpinKitFadingCube spinkit = SpinKitFadingCube(
+      color: Colors.pink,
+      size: 50.0,
+      controller: animationController,
+    );
     return FutureBuilder(
       future: getUserData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-            child: spinKit(this),
+            child: spinkit,
           );
         }
         return Stack(

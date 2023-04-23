@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/bottom_nav_bar.dart';
 import 'package:humari_dukan/widgets/custom_appbar.dart';
 
-import '../widgets/custom_progress_indicator.dart';
 
 class WishlistedProductScreen extends StatefulWidget {
   const WishlistedProductScreen({Key? key}) : super(key: key);
@@ -21,9 +21,28 @@ class _WishlistedProductScreenState extends State<WishlistedProductScreen>
   String productName = "";
   int sellingPrice = 0;
   int costPrice = 0;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    SpinKitFadingCube spinkit = SpinKitFadingCube(
+      color: Colors.pink,
+      size: 50.0,
+      controller: animationController,
+    );
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -42,7 +61,7 @@ class _WishlistedProductScreenState extends State<WishlistedProductScreen>
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: spinKit(this),
+                      child: spinkit,
                     );
                   }
                   if (snapshot.data?.docs.length == 0) {
