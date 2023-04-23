@@ -1,11 +1,10 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/bottom_nav_bar.dart';
 import 'package:humari_dukan/widgets/custom_appbar.dart';
+
+import '../widgets/custom_progress_indicator.dart';
 
 class WishlistedProductScreen extends StatefulWidget {
   const WishlistedProductScreen({Key? key}) : super(key: key);
@@ -15,7 +14,8 @@ class WishlistedProductScreen extends StatefulWidget {
       _WishlistedProductScreenState();
 }
 
-class _WishlistedProductScreenState extends State<WishlistedProductScreen> {
+class _WishlistedProductScreenState extends State<WishlistedProductScreen>
+    with TickerProviderStateMixin {
   FirebaseServices services = FirebaseServices();
   User? user = FirebaseAuth.instance.currentUser;
   String productName = "";
@@ -28,7 +28,10 @@ class _WishlistedProductScreenState extends State<WishlistedProductScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            const CustomAppBar(appbarTitle: "My Wishlist"),
+            const CustomAppBar(
+              appbarTitle: "My Wishlist",
+              showShoppingCart: true,
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 70.0),
               child: FutureBuilder(
@@ -38,8 +41,8 @@ class _WishlistedProductScreenState extends State<WishlistedProductScreen> {
                     .get(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      child: spinKit(this),
                     );
                   }
                   if (snapshot.data?.docs.length == 0) {

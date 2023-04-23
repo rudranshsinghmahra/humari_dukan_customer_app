@@ -7,6 +7,8 @@ import 'package:humari_dukan/widgets/bottom_nav_bar.dart';
 import 'package:humari_dukan/widgets/counter.dart';
 import 'package:humari_dukan/widgets/custom_appbar.dart';
 
+import '../widgets/custom_progress_indicator.dart';
+
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({Key? key, this.documentSnapshot})
       : super(key: key);
@@ -16,7 +18,8 @@ class ProductDetailsScreen extends StatefulWidget {
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+class _ProductDetailsScreenState extends State<ProductDetailsScreen>
+    with TickerProviderStateMixin {
   FirebaseServices services = FirebaseServices();
   User? user = FirebaseAuth.instance.currentUser;
   bool isWishListed = false;
@@ -110,8 +113,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               future: getWishlistedItemData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Center(
+                    child: spinKit(this),
                   );
                 }
                 return Positioned(
@@ -142,7 +145,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ));
               },
             ),
-            CustomAppBar(appbarTitle: widget.documentSnapshot?['productName']),
+            CustomAppBar(appbarTitle: widget.documentSnapshot?['productName'],showShoppingCart: true,),
             Padding(
               padding: const EdgeInsets.only(top: 360.0),
               child: Container(
@@ -221,8 +224,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        CounterWidget(
-                          documentSnapshot: widget.documentSnapshot,
+                        Row(
+                          children: [
+                            const Spacer(),
+                            CounterWidget(
+                              documentSnapshot: widget.documentSnapshot,
+                            ),
+                            const Spacer(),
+                          ],
                         ),
                         const SizedBox(
                           height: 20,

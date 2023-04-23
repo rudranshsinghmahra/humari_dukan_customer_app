@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseServices {
   CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -80,14 +80,22 @@ class FirebaseServices {
     cart.doc(user?.uid).collection("cartItems").doc(docId).delete();
   }
 
-  Future updateCartDetails(docId, quantity) async {
+  Future updateCartDetails(docId, quantity, total) async {
     await cart.doc(user?.uid).collection('cartItems').doc(docId).update({
       'quantity': quantity,
+      'total': total,
     });
   }
 
-  Future addProductsToCart(userUid, String productName, String description,
-      int costPrice, int sellingPrice, String sku, int quantity) async {
+  Future addProductsToCart(
+      userUid,
+      String productName,
+      String description,
+      int costPrice,
+      int sellingPrice,
+      String sku,
+      int quantity,
+      int total) async {
     await cart.doc(userUid).collection("cartItems").doc().set({
       "productName": productName,
       "description": description,
@@ -96,6 +104,7 @@ class FirebaseServices {
       "userUid": userUid,
       "sku": sku,
       "quantity": quantity,
+      "total": total
     });
   }
 }

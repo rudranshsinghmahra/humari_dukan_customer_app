@@ -17,7 +17,7 @@ class _SettingScreenState extends State<SettingScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            const CustomAppBar(appbarTitle: "Settings"),
+            const CustomAppBar(appbarTitle: "Settings",showShoppingCart: true,),
             SingleChildScrollView(
               child: Column(
                 children: [

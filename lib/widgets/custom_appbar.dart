@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:humari_dukan/screens/cart_screen.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({Key? key, required this.appbarTitle}) : super(key: key);
+  const CustomAppBar(
+      {Key? key, required this.appbarTitle, required this.showShoppingCart})
+      : super(key: key);
   final String appbarTitle;
+  final bool showShoppingCart;
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +50,22 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: 20.0, bottom: 10),
+                padding: const EdgeInsets.only(right: 20.0, bottom: 10),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                         context,
                         PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => CartScreen(),
-                            transitionDuration: Duration(seconds: 0)));
+                            pageBuilder: (_, __, ___) => const CartScreen(),
+                            transitionDuration: const Duration(seconds: 0)));
                   },
-                  child: Icon(
-                    Icons.shopping_bag_outlined,
-                    size: 40,
-                    color: Colors.white,
-                  ),
+                  child: showShoppingCart
+                      ? const Icon(
+                          Icons.shopping_bag_outlined,
+                          size: 40,
+                          color: Colors.white,
+                        )
+                      : Container(),
                 ),
               )
             ],

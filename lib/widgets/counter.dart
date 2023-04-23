@@ -18,6 +18,7 @@ class _CounterWidgetState extends State<CounterWidget> {
   bool _exists = false;
   int quantity = 1;
   String? docId;
+
   final snackBar = SnackBar(
     elevation: 0,
     behavior: SnackBarBehavior.floating,
@@ -89,14 +90,12 @@ class _CounterWidgetState extends State<CounterWidget> {
                             quantity--;
                           });
                         }
-                        services.updateCartDetails(docId, quantity);
+                        var total =
+                            quantity * widget.documentSnapshot?['sellingPrice'];
+                        services.updateCartDetails(docId, quantity, total);
                       },
-                      child: const Text(
-                        "-",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 28),
+                      child: const Icon(
+                        Icons.remove,
                       ),
                     ),
                   ),
@@ -128,16 +127,11 @@ class _CounterWidgetState extends State<CounterWidget> {
                         setState(() {
                           quantity++;
                         });
-                        services.updateCartDetails(docId, quantity);
+                        var total =
+                            quantity * widget.documentSnapshot?['sellingPrice'];
+                        services.updateCartDetails(docId, quantity, total);
                       },
-                      child: const Text(
-                        "+",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28,
-                        ),
-                      ),
+                      child: const Icon(Icons.add),
                     ),
                   ),
                 ],
@@ -149,35 +143,34 @@ class _CounterWidgetState extends State<CounterWidget> {
             builder: ((context, snapshot) {
               return Row(
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        services
-                            .addProductsToCart(
-                                user?.uid,
-                                widget.documentSnapshot?['productName'],
-                                widget.documentSnapshot?['description'],
-                                widget.documentSnapshot?['costPrice'],
-                                widget.documentSnapshot?['sellingPrice'],
-                                widget.documentSnapshot?['sku'],
-                                1)
-                            .then(
-                              (value) => {
-                                ScaffoldMessenger.of(context)
-                                  ..hideCurrentSnackBar()
-                                  ..showSnackBar(snackBar)
-                              },
-                            );
-                        setState(() {});
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffffe156)),
-                      child: const Text(
-                        "Add to Cart",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                  ElevatedButton(
+                    onPressed: () {
+                      services
+                          .addProductsToCart(
+                              user?.uid,
+                              widget.documentSnapshot?['productName'],
+                              widget.documentSnapshot?['description'],
+                              widget.documentSnapshot?['costPrice'],
+                              widget.documentSnapshot?['sellingPrice'],
+                              widget.documentSnapshot?['sku'],
+                              1,
+                              widget.documentSnapshot?['sellingPrice'])
+                          .then(
+                            (value) => {
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(snackBar)
+                            },
+                          );
+                      setState(() {});
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xffffe156)),
+                    child: const Text(
+                      "Add to Cart",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ),
