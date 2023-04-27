@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:humari_dukan/services/cart_provider.dart';
 
 class FirebaseServices {
   CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -8,6 +9,10 @@ class FirebaseServices {
   CollectionReference wishlists =
       FirebaseFirestore.instance.collection("wishlists");
   CollectionReference cart = FirebaseFirestore.instance.collection("cart");
+  CollectionReference address =
+      FirebaseFirestore.instance.collection("address");
+  CollectionReference orders = FirebaseFirestore.instance.collection("orders");
+
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<UserCredential?> createUserWithEmailAndPassword(
@@ -106,5 +111,50 @@ class FirebaseServices {
       "quantity": quantity,
       "total": total
     });
+  }
+
+  Future addAddressToDatabase(
+    String recipientName,
+    String houseNumber,
+    String locality,
+    String city,
+    String state,
+    String pinCode,
+    String country,
+    String addressType,
+  ) async {
+    await address.doc(user?.uid).collection(addressType).doc().set(
+      {
+        "recipientName": recipientName,
+        "houseNumber": houseNumber,
+        "locality": locality,
+        "city": city,
+        "state": state,
+        "pinCode": pinCode,
+        "country": country,
+      },
+    );
+  }
+
+  Future placeOrder(double total, CartProvider cartProvider) async {
+    await orders.doc().set({
+      "deliveryStatus": "Order Placed",
+      "total": total,
+      "products": cartProvider.cartList,
+      "timestamp": DateTime.now(),
+      "userId": user?.uid,
+    }).then((value) {
+      deleteCart();
+    });
+  }
+
+  Future deleteCart() async {
+    await cart.doc(user?.uid).collection('cartItems').get().then(
+      (snapshot) {
+        for (DocumentSnapshot documentSnapshot in snapshot.docs) {
+          documentSnapshot.reference.delete();
+        }
+      },
+    );
   }
 }

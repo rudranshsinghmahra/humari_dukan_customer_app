@@ -30,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            const CustomAppBar(appbarTitle: "Cart",showShoppingCart: true),
+            const CustomAppBar(appbarTitle: "Cart",showShoppingCart: false),
             Padding(
               padding: const EdgeInsets.only(top: 70, left: 10, right: 10),
               child: Card(
