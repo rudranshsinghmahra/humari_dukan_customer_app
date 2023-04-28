@@ -21,11 +21,11 @@ class CustomShoppingCart extends StatelessWidget {
             child: Container(
               height: 20,
               width: 20,
-              color: Colors.green,
+              color: const Color(0xfffee356),
               child: Center(
                 child: Text(
                   "${cartProvider.cartQty}",
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
             ),

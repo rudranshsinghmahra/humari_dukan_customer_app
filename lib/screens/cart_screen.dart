@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:humari_dukan/constant.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/bottom_nav_bar.dart';
 import 'package:humari_dukan/widgets/cart/cart_list.dart';
@@ -8,7 +9,6 @@ import 'package:provider/provider.dart';
 
 import '../services/cart_provider.dart';
 import 'checkout_screen.dart';
-import 'order_placed_screen.dart';
 
 class CartScreen extends StatefulWidget {
   static String id = "cart_screen";
@@ -30,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            const CustomAppBar(appbarTitle: "Cart",showShoppingCart: false),
+            const CustomAppBar(appbarTitle: "Cart", showShoppingCart: false),
             Padding(
               padding: const EdgeInsets.only(top: 70, left: 10, right: 10),
               child: Card(
@@ -45,14 +45,19 @@ class _CartScreenState extends State<CartScreen> {
                       const Text(
                         "Total:",
                         style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         "${cartProvider.subTotal}",
                         style: const TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xffffdf4d)),
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                          color: Color(
+                            0xffffdf4d,
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -63,31 +68,42 @@ class _CartScreenState extends State<CartScreen> {
               left: 0,
               right: 0,
               child: Padding(
-                padding: const EdgeInsets.only(top: 160, left: 40, right: 40),
+                padding: const EdgeInsets.only(top: 160, left: 12, right: 12),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CheckoutScreen(),
-                      ),
-                    );
+                    if (cartProvider.subTotal > 0.0) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CheckoutScreen(),
+                        ),
+                      );
+                    } else {
+                      showToast("Please add some product(s) in cart");
+                    }
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: const Color(0xffff4a85),
-                        borderRadius: BorderRadius.circular(10)),
-                    width: 300,
-                    height: 80,
-                    child: const Center(
-                      child: Text(
-                        "Checkout",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: const Color(0xffff4a85),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "Checkout",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),

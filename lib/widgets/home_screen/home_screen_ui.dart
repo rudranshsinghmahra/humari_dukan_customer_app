@@ -3,11 +3,11 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:humari_dukan/services/cart_provider.dart';
+import 'package:humari_dukan/screens/home_screen.dart';
+import 'package:humari_dukan/screens/purchases_screen.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/customShoppingCart.dart';
 import 'package:humari_dukan/widgets/home_screen/product_list.dart';
-import 'package:provider/provider.dart';
 
 import '../../screens/cart_screen.dart';
 
@@ -132,17 +132,16 @@ class _HomeScreenUIState extends State<HomeScreenUI>
                       Padding(
                         padding: const EdgeInsets.only(right: 20.0, bottom: 10),
                         child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) =>
-                                        const CartScreen(),
-                                    transitionDuration:
-                                        const Duration(seconds: 0)));
-                          },
-                          child: CustomShoppingCart()
-                        ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                      pageBuilder: (_, __, ___) =>
+                                          const CartScreen(),
+                                      transitionDuration:
+                                          const Duration(seconds: 0)));
+                            },
+                            child: CustomShoppingCart()),
                       )
                     ],
                   ),
@@ -211,9 +210,40 @@ class _HomeScreenUIState extends State<HomeScreenUI>
                         iconEnabledColor: const Color(0xffff4a85),
                         iconDisabledColor: const Color(0xffff4a85),
                         dropdownMaxHeight: 350,
-                        buttonWidth: 100,
+                        buttonWidth: MediaQuery.of(context).size.width * 0.65,
                         dropdownWidth: MediaQuery.of(context).size.width,
-                        onChanged: (value) {},
+                        onChanged: (item) {
+                          item == "Messages"
+                              ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomeScreen()))
+                              : (item == "Notification"
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomeScreen()))
+                                  : (item == "Accounts Details"
+                                      ? Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomeScreen()))
+                                      : item == "My Purchases"
+                                          ? Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const MyPurchasesScreen()))
+                                          : (item == "Settings"
+                                              ? Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const HomeScreen()))
+                                              : Container())));
+                        },
                         onMenuStateChange: (isOpen) {
                           if (isOpen) {
                             appBarMenuPressed = true;

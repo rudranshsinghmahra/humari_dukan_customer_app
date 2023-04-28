@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:humari_dukan/services/cart_provider.dart';
+import 'package:intl/intl.dart';
 
 class FirebaseServices {
   CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -136,16 +137,31 @@ class FirebaseServices {
     );
   }
 
+  Future<String> generateOrderNumber() async {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('ddMMyyyy-HHmmss');
+    final String formattedDateTime = formatter.format(now);
+
+    final String orderNumber =
+        'ORD-$formattedDateTime-${user?.uid.substring(0, 5)}';
+
+    return orderNumber;
+  }
+
   Future placeOrder(double total, CartProvider cartProvider) async {
-    await orders.doc().set({
-      "deliveryStatus": "Order Placed",
-      "total": total,
-      "products": cartProvider.cartList,
-      "timestamp": DateTime.now(),
-      "userId": user?.uid,
-    }).then((value) {
-      deleteCart();
-    });
+    await generateOrderNumber().then((orderNumber) => {
+          orders.doc().set({
+            "deliveryStatus": "Order Placed",
+            "total": total,
+            "products": cartProvider.cartList,
+            "timestamp": DateTime.now(),
+            "userId": user?.uid,
+            "rating": 0.0,
+            "orderNumber": orderNumber,
+          }).then((value) {
+            deleteCart();
+          })
+        });
   }
 
   Future deleteCart() async {
@@ -156,5 +172,11 @@ class FirebaseServices {
         }
       },
     );
+  }
+
+  Future updateRating(documentId, double rating) async {
+    await orders.doc(documentId).update({
+      "rating": rating,
+    });
   }
 }
