@@ -154,10 +154,16 @@ class FirebaseServices {
             "deliveryStatus": "Order Placed",
             "total": total,
             "products": cartProvider.cartList,
-            "timestamp": DateTime.now(),
+            "orderPlacedOn": DateTime.now(),
             "userId": user?.uid,
             "rating": 0.0,
             "orderNumber": orderNumber,
+            "orderProcessedOn": null,
+            "orderPickedUp": null,
+            "orderShippedOn": null,
+            "reachedNearestHubOn": null,
+            "outForDeliveryOn": null,
+            "orderDeliveredOn": null,
           }).then((value) {
             deleteCart();
           })

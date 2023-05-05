@@ -76,10 +76,14 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen>
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
                             var timestamp =
-                                snapshot.data?.docs[index]['timestamp'];
+                                snapshot.data?.docs[index]['orderPlacedOn'];
                             var formattedDate =
                                 DateFormat('dd-MM-yyyy, hh:mm a')
                                     .format(timestamp.toDate());
+                            DateTime newDate =
+                                timestamp.toDate().add(const Duration(days: 7));
+                            String deliveryDate =
+                                "${newDate.day.toString().padLeft(2, '0')} ${DateFormat('MMM').format(newDate)}";
                             return Padding(
                               padding:
                                   const EdgeInsets.only(left: 12.0, right: 12),
@@ -148,8 +152,8 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen>
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              const Text(
-                                                "Estimated Delivery on 21 Dec",
+                                              Text(
+                                                "Estimated Delivery on $deliveryDate",
                                                 style: TextStyle(
                                                     color: Colors.green,
                                                     fontWeight: FontWeight.w500,

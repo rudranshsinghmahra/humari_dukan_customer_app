@@ -258,12 +258,13 @@ class _HomeScreenUIState extends State<HomeScreenUI>
               ),
             ),
             const Padding(
-                padding: EdgeInsets.only(
-                  top: 70,
-                  left: 20,
-                  right: 20,
-                ),
-                child: ProductListHomeScreen()),
+              padding: EdgeInsets.only(
+                top: 70,
+                left: 20,
+                right: 20,
+              ),
+              child: ProductListHomeScreen(),
+            ),
           ],
         );
       },

@@ -51,7 +51,6 @@ dependencies:
   intl: ^0.17.0
   flutter_rating_bar: ^4.0.1
   fluttertoast: ^8.2.1
-  order_tracker: ^0.0.2
 
 dev_dependencies:
   flutter_test:
