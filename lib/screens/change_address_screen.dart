@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:humari_dukan/screens/add_address_screen.dart';
+import 'package:humari_dukan/screens/update_address_screen.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/custom_appbar.dart';
 
@@ -542,7 +543,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen>
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const AddAddressScreen(),
+                                  const UpdateAddressScreen(),
                                 ),
                               );
                             },

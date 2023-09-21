@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/custom_appbar.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({Key? key}) : super(key: key);
+  const AddAddressScreen({Key? key, required this.placeMark}) : super(key: key);
+  final Placemark? placeMark;
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();
@@ -42,7 +44,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(addressType);
+    houseNumber.text = widget.placeMark!.street!;
+    locality.text = widget.placeMark!.subLocality!;
+    city.text = widget.placeMark!.locality!;
+    state.text = widget.placeMark!.administrativeArea!;
+    pinCode.text = widget.placeMark!.postalCode!;
+    country.text = widget.placeMark!.country!;
     return Scaffold(
       body: SafeArea(
         child: Stack(

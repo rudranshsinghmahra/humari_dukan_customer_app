@@ -55,6 +55,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen>
                       stream: firebaseServices.orders
                           .where("userId",
                               isEqualTo: firebaseServices.user?.uid)
+                          .orderBy("orderPlacedOn", descending: true)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
@@ -154,10 +155,11 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen>
                                             children: [
                                               Text(
                                                 "Estimated Delivery on $deliveryDate",
-                                                style: TextStyle(
-                                                    color: Colors.green,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16),
+                                                style: const TextStyle(
+                                                  color: Colors.green,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
+                                                ),
                                               ),
                                               RatingBar.builder(
                                                 initialRating: snapshot.data

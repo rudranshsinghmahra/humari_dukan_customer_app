@@ -3,8 +3,10 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:humari_dukan/screens/account_details_screen.dart';
 import 'package:humari_dukan/screens/home_screen.dart';
 import 'package:humari_dukan/screens/purchases_screen.dart';
+import 'package:humari_dukan/screens/settings_screen.dart';
 import 'package:humari_dukan/services/firebase_services.dart';
 import 'package:humari_dukan/widgets/customShoppingCart.dart';
 import 'package:humari_dukan/widgets/home_screen/product_list.dart';
@@ -132,16 +134,17 @@ class _HomeScreenUIState extends State<HomeScreenUI>
                       Padding(
                         padding: const EdgeInsets.only(right: 20.0, bottom: 10),
                         child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) =>
-                                          const CartScreen(),
-                                      transitionDuration:
-                                          const Duration(seconds: 0)));
-                            },
-                            child: CustomShoppingCart()),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) => const CartScreen(),
+                                transitionDuration: const Duration(seconds: 0),
+                              ),
+                            );
+                          },
+                          child: const CustomShoppingCart(),
+                        ),
                       )
                     ],
                   ),
@@ -198,20 +201,29 @@ class _HomeScreenUIState extends State<HomeScreenUI>
                             )
                             .toList(),
                         value: selectedValue,
-                        customItemsHeights: customItemsHeights,
-                        dropdownDecoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(30),
-                              bottomLeft: Radius.circular(30)),
-                          color: Color(0xffff4a85),
+                        menuItemStyleData: MenuItemStyleData(
+                          customHeights: customItemsHeights
+                        ),
+                        buttonStyleData: ButtonStyleData(
+                          width: MediaQuery.of(context).size.width * 0.65,
                         ),
                         isExpanded: true,
-                        dropdownElevation: 0,
-                        iconEnabledColor: const Color(0xffff4a85),
-                        iconDisabledColor: const Color(0xffff4a85),
-                        dropdownMaxHeight: 350,
-                        buttonWidth: MediaQuery.of(context).size.width * 0.65,
-                        dropdownWidth: MediaQuery.of(context).size.width,
+                        iconStyleData: const IconStyleData(
+                          iconEnabledColor: Color(0xffff4a85),
+                          iconDisabledColor: Color(0xffff4a85),
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          width: MediaQuery.of(context).size.width,
+                          maxHeight: 350,
+                          elevation: 0,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(30),
+                              bottomLeft: Radius.circular(30),
+                            ),
+                            color: Color(0xffff4a85),
+                          ),
+                        ),
                         onChanged: (item) {
                           item == "Messages"
                               ? Navigator.push(
@@ -229,7 +241,7 @@ class _HomeScreenUIState extends State<HomeScreenUI>
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const HomeScreen()))
+                                                  const AccountDetailsScreen()))
                                       : item == "My Purchases"
                                           ? Navigator.push(
                                               context,
@@ -241,7 +253,7 @@ class _HomeScreenUIState extends State<HomeScreenUI>
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const HomeScreen()))
+                                                          const SettingScreen()))
                                               : Container())));
                         },
                         onMenuStateChange: (isOpen) {

@@ -169,7 +169,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   "Track Order",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                      fontSize: 16,),
                                 ),
                                 const SizedBox(
                                   height: 30,
